@@ -8,7 +8,7 @@ import unicodedata
 
 
 padToken, goToken, eosToken, unknownToken = 0, 1, 2, 3
-#jieba詞典，也可以使用自己的詞典
+#jieba詞典，也可以使用自己的詞典呦!
 jieba.load_userdict('../NameDict_Ch_v2')
 
 class Batch:
