@@ -18,13 +18,13 @@ tf.app.flags.DEFINE_integer('rnn_size', 512, 'Number of hidden units in each lay
 tf.app.flags.DEFINE_integer('num_layers', 4, 'Number of layers in each encoder and decoder')
 tf.app.flags.DEFINE_integer('embedding_size', 512, 'Embedding dimensions of encoder and decoder inputs')
 tf.app.flags.DEFINE_float('learning_rate', 0.0001, 'Learning rate')
-tf.app.flags.DEFINE_integer('batch_size', 16, 'Batch size')
-tf.app.flags.DEFINE_integer('numEpochs', 80, 'Maximum epochs of training')
-tf.app.flags.DEFINE_integer('steps_per_checkpoint', 50000, 'Save model checkpoint every this iteration')
+tf.app.flags.DEFINE_integer('batch_size', 10, 'Batch size')
+tf.app.flags.DEFINE_integer('numEpochs', 5, 'Maximum epochs of training')
+tf.app.flags.DEFINE_integer('steps_per_checkpoint', 50, 'Save model checkpoint every this iteration')
 tf.app.flags.DEFINE_string('model_dir', 'model/', 'Path to save model checkpoints')
 tf.app.flags.DEFINE_string('model_name', 'chatbot.ckpt', 'File name used for model checkpoints')
-tf.app.flags.DEFINE_integer('train_size', 180000, 'Training data size')
-tf.app.flags.DEFINE_integer('validation_size', 10000, 'Validation data')
+tf.app.flags.DEFINE_integer('train_size', 100, 'Training data size')
+tf.app.flags.DEFINE_integer('validation_size', 50, 'Validation data')
 tf.app.flags.DEFINE_boolean('add_noise', True, 'Add noise to sentences')
 tf.app.flags.DEFINE_float('noise_prob', 0.1, 'omission and swap probability of denoise autoencoder')
 tf.app.flags.DEFINE_boolean('use_attention', False, 'use attention or not')
@@ -44,20 +44,20 @@ print(FLAGS)
 # id2wordFile = '../novel_sentence4/id2word'
 
 #金庸30萬跟白話30萬混合做出的vocab
-word2idFile = '../novel_sentence5/step1_word2id'
-id2wordFile = '../novel_sentence5/step1_id2word'
+word2idFile = 'data/step1_word2id'
+id2wordFile = 'data/step1_id2word'
 
 #若只要預測出武俠or白話單詞，將target_word2id改成對應風格的table
 if FLAGS.only_wuxia:
     if FLAGS.only_JINYONG:
-        target_word2idFile = '../novel_sentence5/decoder3_word2id_compress'
-        target_id2wordFile = '../novel_sentence5/decoder3_id2word_compress'
+        target_word2idFile = 'data/decoder3_word2id_compress'
+        target_id2wordFile = 'data/decoder3_id2word_compress'
     else:
-        target_word2idFile = '../novel_sentence4/decoder_word2id_compress'
-        target_id2wordFile = '../novel_sentence4/decoder_id2word_compress'
+        target_word2idFile = 'data/decoder_word2id_compress'
+        target_id2wordFile = 'data/decoder_id2word_compress'
 elif FLAGS.only_normal:
-    target_word2idFile = '../novel_sentence4/decoder2_word2id_compress'
-    target_id2wordFile = '../novel_sentence4/decoder2_id2word_compress'
+    target_word2idFile = 'data/decoder2_word2id_compress'
+    target_id2wordFile = 'data/decoder2_id2word_compress'
 else:
     target_word2idFile = word2idFile
     target_id2wordFile = id2wordFile 
@@ -66,24 +66,24 @@ else:
 #訓練資料路徑
 if FLAGS.only_wuxia:
     if FLAGS.only_JINYONG:
-        trainFile = '../novel_sentence5/JINYONG_seg5_clear_train.txt'
-        validationFile = '../novel_sentence5/JINYONG_seg5_clear_validation.txt'
+        trainFile = 'data/JINYONG_train.txt'
+        validationFile = 'data/JINYONG_validation.txt'
     else:
-        trainFile = '../novel_sentence4/純武俠仙俠_seg5_clear_train.txt'
-        validationFile = '../novel_sentence4/純武俠仙俠_seg5_clear_validation.txt'
+        trainFile = 'data/純武俠仙俠_seg5_clear_train.txt'
+        validationFile = 'data/純武俠仙俠_seg5_clear_validation.txt'
 elif FLAGS.only_normal:
-    trainFile = '../novel_sentence4/非武俠_seg5_clear_train.txt'
-    validationFile = '../novel_sentence4/非武俠_seg5_clear_validation.txt'
+    trainFile = 'data/非武俠_seg5_clear_train.txt'
+    validationFile = 'data/非武俠_seg5_clear_validation.txt'
 else:
     # trainFile = '../novel_sentence4/oneStep_sentence_clear_train.txt'
     # validationFile = '../novel_sentence4/oneStep_sentence_clear_validation.txt'
-    trainFile = '../novel_sentence5/step1_seg5_clear_train.txt'
-    validationFile = '../novel_sentence5/step1_seg5_clear_validation.txt'
+    trainFile = 'data/step1_train.txt'
+    validationFile = 'data/step1_validation.txt'
 
 
 #pre-train word embedding路徑
 # pre_trainFile = '../novel_sentence4/gensim_5W.txt'
-pre_trainFile = '../novel_sentence5/gensim_5W_2.txt'
+pre_trainFile = 'data/gensim_5W_2.txt'
 
 
 print("word2idFile", word2idFile)
@@ -155,7 +155,7 @@ with tf.Session() as sess:
     embeddingConfig = config.embeddings.add()
     embeddingConfig.tensor_name = model.embedding.name
     # embeddingConfig.metadata_path = '/home/nj/styleTransfer/novel_sentence4/id2word.tsv'
-    embeddingConfig.metadata_path = '/home/nj/styleTransfer/novel_sentence5/step1_id2word.tsv'
+    embeddingConfig.metadata_path = 'data/step1_id2word.tsv'
     projector.visualize_embeddings(summary_writer, config)
 
 

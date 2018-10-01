@@ -60,25 +60,25 @@ def predict_ids_to_seq(predict_ids, id2word, beam_szie):
 # word2idFile = '../novel_sentence4/word2id'
 # id2wordFile = '../novel_sentence4/id2word'
 
-word2idFile = '../novel_sentence5/step1_word2id'
-id2wordFile = '../novel_sentence5/step1_id2word'
+word2idFile = 'data/step1_word2id'
+id2wordFile = 'data/step1_id2word'
 
 if FLAGS.only_wuxia:
     if FLAGS.only_JINYONG:
-        target_word2idFile = '../novel_sentence5/decoder3_word2id_compress'
-        target_id2wordFile = '../novel_sentence5/decoder3_id2word_compress'
+        target_word2idFile = 'data/decoder3_word2id_compress'
+        target_id2wordFile = 'data/decoder3_id2word_compress'
     else:
-        target_word2idFile = '../novel_sentence4/decoder_word2id_compress'
-        target_id2wordFile = '../novel_sentence4/decoder_id2word_compress'
+        target_word2idFile = 'data/decoder_word2id_compress'
+        target_id2wordFile = 'data/decoder_id2word_compress'
 elif FLAGS.only_normal:
-    target_word2idFile = '../novel_sentence4/decoder2_word2id_compress'
-    target_id2wordFile = '../novel_sentence4/decoder2_id2word_compress'
+    target_word2idFile = 'data/decoder2_word2id_compress'
+    target_id2wordFile = 'data/decoder2_id2word_compress'
 else:
     target_word2idFile = word2idFile
-    target_id2wordFile = id2wordFile 
+    target_id2wordFile = id2wordFile  
 
 # pre_trainFile = '../novel_sentence4/gensim_5W.txt'
-pre_trainFile = '../novel_sentence5/gensim_5W_2.txt'
+pre_trainFile = 'data/gensim_5W_2.txt'
 
 word2id = json.load(open(word2idFile,'r'))
 id2word = json.load(open(id2wordFile,'r'))
