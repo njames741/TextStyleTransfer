@@ -27,14 +27,14 @@ tf.app.flags.DEFINE_integer('train_size', 100, 'Training data size')
 tf.app.flags.DEFINE_integer('validation_size', 50, 'Validation data')
 tf.app.flags.DEFINE_boolean('add_noise', True, 'Add noise to sentences')
 tf.app.flags.DEFINE_float('noise_prob', 0.1, 'omission and swap probability of denoise autoencoder')
-tf.app.flags.DEFINE_boolean('use_attention', False, 'use attention or not')
+tf.app.flags.DEFINE_boolean('use_attention', True, 'use attention or not')
 tf.app.flags.DEFINE_boolean('use_pre_train', True, 'use gensim pre-train word embedding or not')
 #要開始第二階段將下面三個lock, only_wuxia/only_normal, second_step改為True,若是要繼續第二階段則把second_step改false，其他一樣為True
-tf.app.flags.DEFINE_boolean('lock', True, 'Training mode lock encoder')
-tf.app.flags.DEFINE_boolean('only_wuxia', True, 'decoder only output wuxia words')
-tf.app.flags.DEFINE_boolean('only_JINYONG', True, 'decoder only output wuxia words')
+tf.app.flags.DEFINE_boolean('lock', False, 'Training mode lock encoder')
+tf.app.flags.DEFINE_boolean('only_wuxia', False, 'decoder only output wuxia words')
+tf.app.flags.DEFINE_boolean('only_JINYONG', False, 'decoder only output wuxia words')
 tf.app.flags.DEFINE_boolean('only_normal', False, 'decoder only output normal words')
-tf.app.flags.DEFINE_boolean('second_step', True, 'second training of styleTransfer(use wuxia novel to train decoder)')
+tf.app.flags.DEFINE_boolean('second_step', False, 'second training of styleTransfer(use wuxia novel to train decoder)')
 FLAGS = tf.app.flags.FLAGS
 
 print(FLAGS)
@@ -154,8 +154,9 @@ with tf.Session() as sess:
     config = projector.ProjectorConfig()
     embeddingConfig = config.embeddings.add()
     embeddingConfig.tensor_name = model.embedding.name
+    #這裡請使用絕對路徑
     # embeddingConfig.metadata_path = '/home/nj/styleTransfer/novel_sentence4/id2word.tsv'
-    embeddingConfig.metadata_path = 'data/step1_id2word.tsv'
+    embeddingConfig.metadata_path = '/home/nj/TextStyleTransfer/data/step1_id2word.tsv'
     projector.visualize_embeddings(summary_writer, config)
 
 
